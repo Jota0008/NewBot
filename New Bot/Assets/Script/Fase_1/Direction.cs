@@ -15,8 +15,8 @@ public class Direction : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private GameManager gameManager;
     private GameObject clonedObject;
     private GameObject anchoredPlaceholder;
-    private GameObject animObject; 
-
+    
+    
     public int direction;
 
     private void Awake()
@@ -26,18 +26,13 @@ public class Direction : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         gameManager = FindObjectOfType<GameManager>();
-        animObject = GameObject.Find("Anim");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (animObject != null)
-        {
-            animObject.SetActive(false);
-        }
-
         if (!isAnchored)
         {
+            // Clonar o objeto arrastado
             clonedObject = Instantiate(this.gameObject);
             clonedObject.transform.SetParent(GameObject.Find("InventoryContent").transform);
             clonedObject.GetComponent<RectTransform>().position = rectTransform.position;
@@ -47,6 +42,7 @@ public class Direction : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
+            // Remover a direção da lista de números
             GameObject parentObject = transform.parent.gameObject;
             UIInventoryItem uIInventoryItem = parentObject.GetComponent<UIInventoryItem>();
             int index = uIInventoryItem.Index - 1;
